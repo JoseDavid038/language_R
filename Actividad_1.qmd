@@ -1,0 +1,390 @@
+---
+title: "Actividad_1"
+author: "Jose David Gonzalez Guevara"
+date: 2024-09-29
+format: html
+editor: visual
+---
+
+## Que es Quarto Document ?
+
+Quarto es un entorno de trabajo que facilita estructurar un documento que reúna las salidas, tanto gráficas como de texto, junto con el código que las genera. Este entorno se basa en el lenguaje markdown y puede usarse desde RStudio.
+
+El proceso involucra dos archivos: un **archivo fuente** y el **documento de salida** para la lectura. Los formatos más populares para documentos de salida son [html]{.smallcaps}, [pdf]{.smallcaps} y Word. Por su parte, el documento fuente de Quarto es un archivo de texto plano con extensión qmd, lo que lo hace identificable y procesable por RStudio.
+
+###### Fuente: <https://bookdown.org/gcorrea/Rpap/quarto.html#:~:text=Quarto%20es%20un%20entorno%20de,y%20puede%20usarse%20desde%20RStudio.>
+
+## R y RStudio
+
+**R** es un entorno y lenguaje de programación el cual proporciona una amplia variedad de técnicas estadísticas (modelado lineal y no lineal, pruebas estadísticas clásicas, análisis de series temporales, clasificación, clustering, etc.) y generación de gráficos. R está disponible como Software Libre.
+
+**RStudio** es un entorno de desarrollo integrado (IDE) para R. Incluye una consola, edición y ejecución directa de código, así como herramientas para gráficos, historial, depuración y gestión del espacio de trabajo.
+
+## Ciencia de Datos, Machine Learning, Inteligencia Artificial y Big Data.
+
+La ciencia de datos es un campo interdisciplinario que se enfoca en extraer conocimientos y valor de grandes conjuntos de datos a través de técnicas estadísticas, análisis de datos y algoritmos. Dentro de la ciencia de datos, el machine learning es una subdisciplina que utiliza algoritmos para que las máquinas aprendan automáticamente de los datos, mejorando su rendimiento en tareas específicas sin ser programadas explícitamente. A su vez, el machine learning es un componente clave de la inteligencia artificial (IA), que busca crear sistemas capaces de realizar tareas que requieren inteligencia humana, como el reconocimiento de patrones y la toma de decisiones. Big Data, por su parte, se refiere al manejo de grandes volúmenes de datos que son difíciles de procesar con métodos tradicionales, y proporciona la materia prima (los datos) que alimenta tanto el machine learning como la IA dentro de la ciencia de datos. En conjunto, estos conceptos se interrelacionan para aprovechar grandes cantidades de información y desarrollar sistemas inteligentes.
+
+## Motores de Bases de Datos
+
+### SQL
+
+-   Microsoft SQL (MSSQL)
+
+-   MySQL
+
+-   SQLite
+
+-   Oracle
+
+-   Maria DB
+
+-   Access
+
+### NoSQL
+
+-   MongoDB
+
+-   Redis
+
+-   DinamoDB
+
+La información almacenada en estos motores de bases de datos puede ser exportada a DATASETS a partir de los cuales se realizara el proceso de PREPROCESAMIENTO DE DATOS , el cual inicia con :
+
+1.  Limpieza de Datos
+
+2.  Reducción de Datos
+
+3.  Transformación de Datos
+
+4.  Datos Faltantes
+
+Existen multples herramientas de análisis y visualización de datos asi como lenguajes de programación especializados en este campo.
+
+### Herramientas
+
+-   Excel
+
+-   Power BI
+
+-   Tableau
+
+-   looker
+
+-   SPSS
+
+-   Stata
+
+-   etc.
+
+### Lenguajes de programación
+
+-   R con su IDE: Rstudio
+
+-   Python con IDE como: IDLE , PyCharm, entre otros.
+
+-   DAX para Power BI
+
+-   Lenguaje M
+
+## Lenguaje R (comandos, funciones, variables, etc)
+
+### Comando getwd()
+
+El comando getwd() me permite conocer la ruta donde se encuentra almacenado el archivo sobre el cual me encuentro trabajando.
+
+```{r}
+getwd()
+```
+
+### Variables y Tipos de datos
+
+Podemos realizar la definición de variables con el simbolo \<- o = y asignar diferentes tipos de datos. El concepto de constante no existe en este lenguaje. Para definir una variable correctamente no debemos incluir espacios en su nombre, ni empezar con numeros , ni utilizar caracteres especiales o palabras reservadas del lenguaje.
+
+```{r}
+precio <- 1000
+costo = 2000
+nombre <- "Jose David"
+estatura = 1.68
+fuma <- TRUE
+
+```
+
+### Operaciones, Secuencias y Estructuras de datos
+
+Tenemos jerarquia en las operaciones y podemos mostrar el resultado con la función print o simplemente digitando el nombre de la variable.
+
+```{r}
+operacion <- (5 * 5) / 3 + 5 - 1
+operacion2 = 5 < 3
+print(operacion)
+print(operacion2)
+```
+
+Podemos generar secuencias con la estructura 1:20 o con la funcion seq()
+
+```{r}
+1:100
+```
+
+Con la función seq() podemos personalizar aun mas la secuencia ajustando el incremento que queremos.
+
+```{r}
+seq(0, 10, by=0.5)
+```
+
+### Vectores, Listas , Matrices y Dataframes
+
+#### Vectores
+
+```{r}
+v <- c(5, 10, 300)
+v
+is.vector(v)
+```
+
+#### Listas
+
+Son estructuras clave : valor
+
+```{r}
+notas <- list(python=5, R=4.5, Dax=4.8)
+info_alumnos <- list(id=1, nombre="Jose Gonzalez", notas)
+info_alumnos
+info_alumnos$nombre
+```
+
+#### Matrices
+
+Son estructuras bidimensionales
+
+En el siguiente fragmento de codigo nos apoyaremos con comentarios para su explicacion con el simbolo #.
+
+```{r}
+mi_vector <- 1:20 #Creo un vector con la secuencia de 1 a 20
+mi_vector
+dim(mi_vector) <- c(4,5) #Le agrego filas y columnas a mi vector.
+mi_vector
+```
+
+```{r}
+mi_matriz2 <- matrix(1:20, 4, 5) #Otro metodo para crear la misma matriz
+mi_matriz2
+```
+
+En el siguiente ejemplo creamos un vector con lenguajes de programacion para luego unir este vector con mi_matriz2 a traves de la funcion cbind()
+
+```{r}
+lenguajes <- c("Python", "R", "Java", "C#")
+cbind(lenguajes, mi_matriz2)
+```
+
+#### Dataframes
+
+Un data frame es una estructura de datos bidimensional similar a una matriz con la diferencia que este permite tipos de datos mixtos (numerico, logico , caracter).
+
+Ahora voy a crear un dataframe a partir de la matriz que habia creado anteriormente.
+
+```{r}
+mi_data_frame <- data.frame(lenguajes,mi_matriz2)
+mi_data_frame
+```
+
+```{r}
+class(mi_data_frame)
+```
+
+Ahora voy a asignarle nombres de las columnas a mi dataframe , esto creando un vector con los nombres y luego asignandoselo a mi dataframe.
+
+```{r}
+cnombres <- c("preferencia", "puntuación","velocidad","escalabilidad", "versatilidad")
+colnames(mi_data_frame) <- cnombres
+mi_data_frame
+```
+
+### Condicionales
+
+```{r}
+age = 20
+
+if (age >= 18){
+  print("you are old")
+}else {
+  print("You are baby")
+}
+```
+
+### Trabajar con Librerias
+
+Para instalar librerias debemos utilizar 2 comandos , uno para descargarla y otro para invocarla. Esto lo hacemos a traves de las siguientes instrucciones:
+
+\*\* install.packages("glue") \*\* para instalarla y
+
+\*\* library(glue) \*\* para invocarla.
+
+### Funciones para concatenar cadenas y valores
+
+```{r}
+library(glue) #invocamos la libreria previa instalación.
+```
+
+Para utilizar la función glue, primero debo instalar la libreria e invocarla. Esto lo hago a traves de las comandos :
+
+install.packages("glue") para instalarla y
+
+library(glue) para invocarla.
+
+```{r}
+output = glue("your age is: {age}")
+print(output)
+
+output2 = sprintf("your age is: %d",age)
+print(output2)
+
+output3 = paste0("Your age is: ", age)
+print(output3)
+```
+
+### Ciclos
+
+#### Ciclo For 
+
+```{r}
+languages = c("python", "R", "JavaScript", "Java", "Android")
+for (variable in languages){
+  print(variable)
+}
+```
+
+```{r}
+tabla = 3
+for (numero in 1:10){
+  print(paste(tabla, "*",numero,"=", tabla*numero ))
+}
+```
+
+#### Ciclo While : Debe tener un contador y una bandera que nos permita finalizar el ciclo. 
+
+```{r}
+flag = 1
+while(flag < 10){
+  print(flag)
+  flag = flag + 1
+}
+```
+
+### Funciones
+
+En R podemos crear nuestras propias funciones para utilizarlas donde y cuando las necesitemos.
+
+```{r}
+multiplicar = function(x,n){
+  resultado = x * n
+  return(resultado)
+}
+
+multiplicar(5,2)
+```
+
+### Importar Archivos
+
+Para importar archivos lo podemos hacer de manera local o desde la web.
+
+#### De manera local
+
+```{r}
+Iris <- read.csv("~/Talent Tech/Iris.csv")
+View(Iris)
+```
+
+#### Desde la web
+
+Instalamos la libreria repmis y luego hacemos uso de ella a traves del comando library
+
+```{r}
+#install.packages("repmis") con este comando instalamos la libreria.
+library(repmis)
+source_data("https://github.com/hllinas/DatosPublicos/blob/main/Estudiantes.Rdata?raw=false")
+datosCompleto <- Estudiantes
+datosCompleto
+```
+
+### Medidas de Tendencia Central
+
+#### Media
+
+Es el promedio.
+
+```{r}
+mean(c(3,5,4,3.5,4.5,5,5))
+```
+
+#### Mediana
+
+Aqui ordenamos los datos y luego a traves de la funcion median() obtenermos el punto central.
+
+```{r}
+x = c(3,4,5,9,2,6,8)
+sort(x)
+median(x)
+```
+
+#### Moda
+
+Es el valor que mas se repite, pero R no tiene una funcion nativa para su calculo, por ello nos apoyamos de una libreria llamada "modeest".
+
+```{r}
+#install.packages("modeest") instalamos la libreria para luego invocarla.
+
+library(modeest)
+datos = c(1,2,2,3,4,5,6,7,7,2,8)
+moda = mlv(datos,method = "mfv")
+print(moda)
+
+minimo = min(x)
+maximo = max(x)
+
+range = maximo - minimo
+print(range)
+range
+```
+
+#### Varianza muestral
+
+Es la que calcula por defecto la funcion var()
+
+```{r}
+data = c(2,4,6,8,10)
+var(data)
+```
+
+#### Varianza poblacional
+
+Creamos una funcion para su calculo.
+
+```{r}
+varianza_poblacionial = function(x){
+  vp = var(x) * (length(x)- 1) / length(x)
+  return(vp)
+}
+
+varianza_poblacionial(data)
+```
+
+#### Desviación estandar
+
+Nos apoyamos en la funcion sd()
+
+```{r}
+pesos_maquina_A = c(500, 502, 499, 501, 500)
+pesos_maquina_B <- c(500, 510, 490, 495, 505)
+
+desviacion_A <- sd(pesos_maquina_A)
+desviacion_B <- sd(pesos_maquina_B)
+
+print(paste("Desviación estándar Máquina A:", desviacion_A))
+print(paste("Desviación estándar Máquina B:", desviacion_B))
+```
+
+### Exportamos a HTML 
+
+Esta fue la compilación de los conceptos aprendidos durante la semana 1 del Bootcamp Analisis de datos Basico. Talento Tech.

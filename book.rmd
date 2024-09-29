@@ -1,0 +1,8 @@
+# Prueba
+
+Esto es una prueba de documentos con extension .rmd (R Markdown)
+
+```{r}
+multiplicacion = 3 * 3
+multiplicacion
+```
