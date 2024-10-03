@@ -4,6 +4,7 @@ author: "Jose David Gonzalez Guevara"
 date: 2024-09-29
 format: html
 editor: visual
+---data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAbElEQVR4Xs2RQQrAMAgEfZgf7W9LAguybljJpR3wEse5JOL3ZObDb4x1loDhHbBOFU6i2Ddnw2KNiXcdAXygJlwE8OFVBHDgKrLgSInN4WMe9iXiqIVsTMjH7z/GhNTEibOxQswcYIWYOR/zAjBJfiXh3jZ6AAAAAElFTkSuQmCC
 ---
 
 ## Que es Quarto Document ?
@@ -246,7 +247,7 @@ print(output3)
 
 ### Ciclos
 
-#### Ciclo For 
+#### Ciclo For
 
 ```{r}
 languages = c("python", "R", "JavaScript", "Java", "Android")
@@ -262,7 +263,7 @@ for (numero in 1:10){
 }
 ```
 
-#### Ciclo While : Debe tener un contador y una bandera que nos permita finalizar el ciclo. 
+#### Ciclo While : Debe tener un contador y una bandera que nos permita finalizar el ciclo.
 
 ```{r}
 flag = 1
@@ -385,6 +386,6 @@ print(paste("Desviación estándar Máquina A:", desviacion_A))
 print(paste("Desviación estándar Máquina B:", desviacion_B))
 ```
 
-### Exportamos a HTML 
+### Exportamos a HTML
 
 Esta fue la compilación de los conceptos aprendidos durante la semana 1 del Bootcamp Analisis de datos Basico. Talento Tech.

@@ -1,0 +1,228 @@
+---
+title: "Actividad_2"
+author: "Jose David Gonzalez Guevara"
+date: 2024-09-29
+format: html
+editor: visual
+---
+
+## Manipulación de Datos y Visualización Grafica - Semana 2
+
+#### De acuerdo a la actividad \# 2 , se realizara el cargue de un dataset para hacer un repaso y poner en practica los comandos y librerias de visualización de datos vistas esta semana.
+
+## Importar Archivo
+
+Se hace uso de la libreria "repmis" previamente instalada , la invocamos y obtenemos el dataset llamado "Estudiantes".
+
+```{r}
+library(repmis)
+source_data("https://github.com/hllinas/DatosPublicos/blob/main/Estudiantes.Rdata?raw=false")
+Estudiantes
+```
+
+El dataset importado via web , contiene 400 filas y 46 columnas de las cuales solo se visualizan las primeras 6.
+
+Este dataset contiene datos de una encuesta aplicada a una muestra de estudiantes universitarios, el cual relaciona datos como sexo, edad, estatura, fuma, estrato, notas, gastos, ingresos, y respuestas a preguntas de opinion.
+
+### Manipulación de datos.
+
+Invocamos la libreria "dplyr" para obtener funciones que nos permitan manipular el dataset.
+
+```{r}
+library(dplyr)
+```
+
+Con la siguiente instrucción mostramos los datos de una columna en particular del dataset. En este caso todas las edades de la encuesta registrada en el dataset.
+
+```{r}
+edad <- Estudiantes[["Edad"]]
+edad
+
+```
+
+Verificamos el tipo de dato con la función typeof() y nos registrar "character" por lo que las edades nos aparecen en comillas.
+
+```{r}
+typeof(edad)
+```
+
+Luego si queremos podemos castearlos datos, es decir convertirlos a tipo de dato numerico y volvemos a verificar con el comando typeof() pero esta vez nos dice formato numerico "double".
+
+```{r}
+Estudiantes$Edad <- as.numeric(as.character(Estudiantes$Edad))
+edad2 <- Estudiantes$Edad
+typeof(edad2)
+```
+
+Y asi las edades ya no nos aparecen dentro de comillas.
+
+```{r}
+edad2
+```
+
+#### Ahora voy a generar una tabla para mostrar la cantidad de estudiantes por sexo.
+
+```{r}
+conteo_sexo <- Estudiantes %>% 
+  count(Sexo) 
+print(conteo_sexo)
+```
+
+Otra forma de hacerlo :
+
+```{r}
+conteo_sexo <- table(Estudiantes$Sexo)
+conteo_sexo
+```
+
+Con la siguiente instrucción mostrare la cantidad de mujeres que no fuman.
+
+```{r}
+filtro <- table(Estudiantes$Fuma, Estudiantes$Sexo)
+Mujeres_no_fuman = filtro["No","Femenino"]
+Mujeres_no_fuman
+```
+
+### Visualización de Datos
+
+La visualizacion de los datos, la realizaremos de 4 maneras diferentes :
+
+1.  Utilizando los graficos provistos por R.
+
+2.  Utilizando la libreria LessR.
+
+3.  Utilizando la libreria ggplot2
+
+4.  Utilizando la libreria plotly
+
+#### Graficos Provistos por R.
+
+Ahora creamos un grafico de barras para mostrar la cantidad de estudiantes por sexo.
+
+```{r}
+bar_positions <- barplot(conteo_sexo, 
+        main = "Cantidad de Estudiantes por Sexo", 
+        xlab = "Sexo", 
+        ylab = "Cantidad de Estudiantes", 
+        col = c("#1f77b4", "#ff7f0e"),  # Colores para cada barra
+        border = "white",
+        ylim = c(0, max(conteo_sexo) + 20))  # Ajuste del límite superior del eje y
+
+#Ahora le agregamos etiquetas de conteo sobre las barras
+text(x = bar_positions, 
+     y = conteo_sexo, 
+     label = conteo_sexo,  # Los valores a mostrar
+     pos = 1,  # Posición: 3 significa arriba de la barra
+     cex = 1,  # Tamaño del texto
+     col = "black")  # Color del texto
+
+legend(
+  "topright",
+  legend = conteo_sexo,
+  fill = c("#1f77b4", "#ff7f0e"),
+  title = "Cantidad"
+)
+```
+
+Ahora realizamos un grafico , un histograma que mostrara el rango de edades de los estudiantes.
+
+```{r}
+hist(edad2, xlab = "Edad (años)", ylab = "Cantidad Estudiantes",main = "Edad muestra de Estudiantes - Encuesta", col = "royalblue1")
+
+```
+
+La función dev.off() en R se utiliza para **cerrar** o **finalizar** un dispositivo gráfico abierto. En R, los "dispositivos gráficos" son ventanas o archivos donde se generan los gráficos, y deben cerrarse con `dev.off()` una vez que has terminado de crear gráficos.
+
+Sin embargo si solo estoy **visualizando** gráficos en documento Quarto (sin guardar archivos de imagen), no necesito la función`dev.off()`. Quarto se encarga de gestionar todo el proceso de generar y mostrar gráficos.
+
+#### Asi puedo crear un vector con colores personalizados para mis graficos.
+
+```{r}
+#Creacion de vector de colores personalizados
+colores_profesionales <- c(
+  "#4E79A7",  # Azul grisáceo suave
+  "#F28E2B",  # Naranja suave
+  "#E15759",  # Rojo oscuro
+  "#76B7B2",  # Verde azulado
+  "#59A14F",  # Verde
+  "#EDC949",  # Amarillo dorado
+  "#AF7AA1",  # Púrpura suave
+  "#FF9DA7",  # Rosa suave
+  "#9C755F",  # Marrón suave
+  "#BAB0AC"   # Gris claro
+)
+```
+
+#### Visualización con Libreria LessR
+
+Generamos un grafico pie o pastel para analizar la cantidad de estudiantes por estrato socio-economico.
+
+```{r}
+library(lessR)
+
+estrato_var <- factor(Estudiantes$Estrato)
+
+# Store the variable as data frame
+estrato_df <- data.frame(estrato_var)
+
+# Crear el gráfico de pastel
+cols <- hcl.colors(length(levels(estrato_var)), "Fall")  # Colores para cada grupo
+PieChart(estrato_var, data = estrato_df, hole = 0,
+         fill = palette(),
+         labels_cex = 0.6,
+         main = "Distribución de Estudiantes por Estrato Socioeconómico") 
+```
+
+#### Visualización con Libreria ggplot2.
+
+Gráfico de dispersión que muestra la relación entre Edad y Estatura, diferenciando por Sexo. En el podremos visualizar los outliers (datos aislados).
+
+```{r}
+library(ggplot2)
+df_filtrado <- Estudiantes %>% select(Sexo, Edad, Estatura)
+
+ggplot(df_filtrado, aes(x = Edad, y = Estatura, color = Sexo)) +
+  geom_point() +  # Puntos de dispersión
+  labs(title = "Relación entre Edad y Estatura por Sexo",
+       x = "Edad",
+       y = "Estatura") +
+  theme_minimal()
+```
+
+#### Visualización con Libreria Plotly.
+
+Utilizaremos las columnas de sexo y fuma.
+
+```{r}
+library("plotly")
+# Paso 1: Seleccionar las columnas "Sexo" y "Fuma"
+datos_filtrados <- Estudiantes[, c("Sexo", "Fuma")]
+
+# Paso 2: Crear una tabla de frecuencias
+tabla_frecuencia <- as.data.frame(table(datos_filtrados$Sexo, datos_filtrados$Fuma))
+
+# Renombrar las columnas de la tabla para facilitar el manejo
+colnames(tabla_frecuencia) <- c("Sexo", "Fuma", "Frecuencia")
+
+# Paso 3: Crear gráfico de barras apiladas o agrupadas con plotly
+grafico <- plot_ly(
+  data = tabla_frecuencia, 
+  x = ~Sexo, 
+  y = ~Frecuencia, 
+  color = ~Fuma,  # Usamos color para diferenciar "No" y "Si" en la variable "Fuma"
+  type = "bar"
+) %>%
+  layout(
+    barmode = "stack",  # Usar "stack" para apilar las barras o "group" para agruparlas
+    title = "Distribución de Fumadores por Sexo",
+    yaxis = list(title = "Frecuencia"),
+    xaxis = list(title = "Sexo")
+  )
+
+#Mostrar el grafico
+grafico
+```
+
+### Exportamos a HTML
+
+Esta fue la compilación de los conceptos aprendidos durante la semana 2 del Bootcamp Analisis de datos Basico. Talento Tech.
